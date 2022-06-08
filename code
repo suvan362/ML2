@@ -1,0 +1,31 @@
+
+
+X=df[["ed","employ","equip","callcard","wireless",'tenure', 'age']]
+display(X)
+X = np.asanyarray(X[['ed', 'employ', 'equip', 'callcard','wireless','tenure', 'age']])
+y = np.asanyarray(df['churn'])
+y [0:5]
+
+
+from sklearn import preprocessing
+X = preprocessing.StandardScaler().fit(X).transform(X) 
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split( X, y, test_size=0.2, random_state=4)
+print ('Train set:', X_train.shape,  y_train.shape)
+print ('Test set:', X_test.shape,  y_test.shape)
+
+
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix
+LR = LogisticRegression(C=0.01, solver='liblinear').fit(X_train,y_train)
+LR
+
+yhat = LR.predict(X_test)
+yhat
+yhat_prob = LR.predict_proba(X_test)
+yhat_prob
+
+m=confusion_matrix(y_test, yhat)
+print(m)
+#start here 
+print((m[0][0]+m[1][1])/(m[0][0]+m[1][0]+m[1][1]+m[0][1]))
